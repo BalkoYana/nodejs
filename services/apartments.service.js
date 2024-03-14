@@ -29,6 +29,9 @@ async function findByIdAndUpdate(id, update) {
 async function findByIdAndDelete(id) {
     return apartmentModel.findByIdAndDelete(id)
 };
+async function findOne(filter) {
+    return apartmentModel.findOne(filter);
+}
 
 module.exports = {
     create,
@@ -36,4 +39,5 @@ module.exports = {
     findById,
     findByIdAndUpdate,
     findByIdAndDelete,
+    findOne
 };
