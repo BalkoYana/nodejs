@@ -31,13 +31,13 @@ const apartmentCreateValidation = async (req, res, next) => {
         }
         const apartment = await apartmentService.findOne({
             $or: [
-                { district: req.body.district },
-                { price: req.body.price },
+                { owner: req.body.owner },
+
             ]
 
         });
         if (apartment) {
-            throw createError.BadRequest("apartment with such district or price already exist");
+            throw createError.BadRequest("apartment with such owner already exist");
         }
         next();
     }
@@ -53,15 +53,13 @@ const apartmentUpdateValidation = async (req, res, next) => {
         if (error) {
             throw createError.BadRequest(error.details[0].message);
         }
-        if (req.body.district || req.body.price) {
+        if (req.body.owner) {
             const orExpression = [];
-            if (req.body.district) {
-                orExpression.push({ district: req.body.district });
+            if (req.body.owner) {
+                orExpression.push({ owner: req.body.owner });
 
             }
-            if (req.body.price) {
-                orExpression.push({ price: req.body.price });
-            }
+
             const apartment = await apartmentService.findOne({
                 _id: {
                     $ne: req.params.apartmentId
@@ -69,7 +67,7 @@ const apartmentUpdateValidation = async (req, res, next) => {
                 $or: orExpression
             });
             if (apartment) {
-                throw createError.BadRequest("apartment with such district or price already exist");
+                throw createError.BadRequest("apartment with such owner already exist");
             }
         }
         next();
