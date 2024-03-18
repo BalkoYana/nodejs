@@ -62,7 +62,7 @@ async function updateApartment(req, res) {
     }
 };
 
-async function deleteApartment(req, res) {
+async function deleteApartment(req, res, next) {
     try {
         const { apartmentId } = req.params;
         await apartmentService.findByIdAndDelete(apartmentId);

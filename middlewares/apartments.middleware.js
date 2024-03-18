@@ -17,6 +17,33 @@ async function apartmentByIdValidation(req, res, next) {
             throw createError.NotFound("apartment with such id not found");
         }
 
+
+
+
+        next();
+    } catch (err) {
+        next(err);
+    }
+};
+function calculateAverage(req, res, next) {
+    try {
+        const { area, rooms } = req.body;
+
+
+
+        if (!area || !rooms) {
+            throw createError.BadRequest("area and rooms are required fields");
+        }
+
+        const aver = area / rooms;
+
+
+        res.locals.aver = aver;
+        res.json({
+            apartment: req.body,
+            aver: aver
+        });
+
         next();
     } catch (err) {
         next(err);
@@ -24,6 +51,9 @@ async function apartmentByIdValidation(req, res, next) {
 };
 const apartmentCreateValidation = async (req, res, next) => {
     try {
+
+
+
         const { error } = ApartmentCreateSchema.validate(req.body);
 
         if (error) {
@@ -36,9 +66,12 @@ const apartmentCreateValidation = async (req, res, next) => {
             ]
 
         });
+
         if (apartment) {
             throw createError.BadRequest("apartment with such owner already exist");
         }
+
+
         next();
     }
     catch (err) {
@@ -66,6 +99,7 @@ const apartmentUpdateValidation = async (req, res, next) => {
                 },
                 $or: orExpression
             });
+
             if (apartment) {
                 throw createError.BadRequest("apartment with such owner already exist");
             }
@@ -79,5 +113,6 @@ const apartmentUpdateValidation = async (req, res, next) => {
 module.exports = {
     apartmentByIdValidation,
     apartmentCreateValidation,
-    apartmentUpdateValidation
+    apartmentUpdateValidation,
+    calculateAverage
 };

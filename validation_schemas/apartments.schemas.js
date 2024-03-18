@@ -5,6 +5,8 @@ const ApartmentCreateSchema = Joi.object({
         .min(2)
         .max(60)
         .required(),
+    aver: Joi.number()
+    ,
 
     floor: Joi.number()
         .min(1)
@@ -32,6 +34,8 @@ const ApartmentUpdateSchema = Joi.object({
     district: Joi.string()
         .min(2)
         .max(60),
+    aver: Joi.number()
+    ,
 
     floor: Joi.number()
         .min(1)
